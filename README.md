@@ -1,4 +1,4 @@
-# APM Module V1
+# APM Module V2
 
 실시간 애플리케이션 성능 모니터링(APM) 시스템. 분산 트레이싱, 메트릭 수집, 실시간 대시보드 시각화를 제공합니다.
 
@@ -51,7 +51,7 @@
 ### 1. 프로젝트 구조
 
 ```
-APM_Module_V1/
+APM_Module_V2/
 ├── src/main/java/com/apm/module/     (Java SDK)
 │   ├── ApmModule.java
 │   ├── ApmConfig.java
@@ -813,6 +813,54 @@ A: `server.js`의 `Math.random() < 0.05 ? 1 : 0` 부분을 수정하세요. (0.0
 - CSS custom properties 활용
 - WebKit scrollbar 커스터마이징
 - min-width 설정으로 반응형 breakpoint 명확화
+
+### 2026.02.15 - Tail-first 예측 지표 고도화 (우여곡절 포함)
+
+#### 🎯 추가 기능
+
+**1. 예측 성공률 실시간 표시 추가**
+- 차트 우측 상단에 `Early | Strict` 성공률 표시
+- 예측 발생 후 W초 이내 결과를 실시간 집계
+- 설정값(`W`, `p99`, `SLO`)을 UI에서 즉시 변경 가능
+
+**2. 예측 상세 로그 조회 기능 추가**
+- 성공률 배지 클릭 시 Early/Strict/Pending 상세 패널 표시
+- 각 항목에 `src(event)` / `match(event)` 정보 표시
+- timeout 실패/성공 사유를 한 번에 추적 가능
+
+#### 😵 우여곡절 / 시행착오
+
+**문제 A: success가 계속 100%로 보임**
+- 현상: `Early 100%`가 장시간 유지되어 지표 신뢰도 혼란
+- 원인:
+  - 초기엔 pending이 많아 분모(resolved)가 작음
+  - OR 조건(`p99 OR SLO`)이 상대적으로 쉽게 충족됨
+- 해결:
+  - `Early`와 `Strict`를 분리해 동시 표시
+  - `Strict`는 `AND + 연속 충족`으로 엄격화
+
+**문제 B: 로그에는 있는데 차트에 점이 안 보임**
+- 현상: prediction 로그는 있는데 차트 점이 없다고 인지
+- 원인:
+  - 점 표시는 `captureDetailed`/브로드캐스트 조건에 따름
+  - 로그는 prediction 타임라인(성공/실패) 기준이므로 서로 1:1이 아님
+  - 시간창 밖으로 밀린 점은 화면에서 사라질 수 있음
+- 해결:
+  - 차트를 실시간 슬라이딩 윈도우로 갱신
+  - prediction 상세 패널에서 `src/match` 이벤트를 확인 가능하게 개선
+
+**문제 C: warmup 데이터가 prediction 로그를 오염**
+- 현상: `src:warmup-...` timeout 로그 다량 발생
+- 원인: 서버 시작 warmup 표본이 prediction 집계에 포함됨
+- 해결:
+  - `source=warmup`은 prediction 통계/로그에서 제외
+  - warmup 완료 직후 prediction 통계 초기화
+
+#### ✅ 현재 운영 해석 가이드
+- `Early`: 조기 경보 감지율(민감도)
+- `Strict`: 엄격 조건 기반 적중률(정밀도)
+- `Pending`: 아직 W초가 지나지 않아 판정 대기 중인 예측
+- 권장 해석: `Early`만 높고 `Strict`가 낮으면 기준 완화/오탐 가능성을 함께 점검
 
 ---
 
