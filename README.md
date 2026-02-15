@@ -108,7 +108,7 @@ npm start
 ---
 
 ## 7) 실행 화면
-<img width="1714" height="1273" alt="image" src="https://github.com/user-attachments/assets/1c4a1ce9-15b6-4949-a104-df11e92723c6" />
+<img width="1776" height="1288" alt="image" src="https://github.com/user-attachments/assets/780c3012-09a1-4b60-a766-fd06bc4200a4" />
 
 
 ---
