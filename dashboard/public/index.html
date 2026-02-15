@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>APM Live Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">APM LIVE</p>
+          <h1>Realtime Percentile Map</h1>
+          <p class="sub">
+            Events flow in as points. Colors track metric families. Outliers burn red.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn" id="sample-btn" type="button">Generate sample</button>
+          <div class="legend" id="legend"></div>
+        </div>
+      </section>
+
+      <div class="dashboard-layout">
+        <section class="card chart-section">
+          <div class="chart-overlay-top">
+            <div class="prediction-topbar">
+              <span class="mini-pill" id="prediction-success-rate">Pred Success -</span>
+              <button class="mini-btn" id="prediction-config-toggle" type="button">⚙</button>
+            </div>
+            <div class="prediction-config hidden" id="prediction-config-panel">
+              <label>W(s)<input id="pred-window-sec" type="number" min="1" step="1" /></label>
+              <label>p99(ms)<input id="pred-p99-ms" type="number" min="1" step="1" /></label>
+              <label>SLO(ms)<input id="pred-slo-ms" type="number" min="1" step="1" /></label>
+              <button class="mini-apply" id="prediction-config-apply" type="button">Apply</button>
+            </div>
+            <div class="prediction-details hidden" id="prediction-details-panel">
+              <div class="prediction-details-title">Prediction Details</div>
+              <div class="prediction-details-body" id="prediction-details-body">-</div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart" aria-label="APM live chart" role="img"></canvas>
+          </div>
+          <p class="note">Time axis starts when the server boots.</p>
+        </section>
+
+        <section class="detail" id="detail">
+          <div class="detail-header">
+            <h2>Event Details</h2>
+            <span class="pill" id="detail-id">None selected</span>
+          </div>
+          <div class="detail-content">
+            <div class="detail-grid">
+              <div>
+                <h3>Metrics</h3>
+                <div class="kv" id="detail-metrics"></div>
+              </div>
+              <div>
+                <h3>Trace Steps</h3>
+                <div class="kv" id="detail-trace"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
