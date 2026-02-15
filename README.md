@@ -107,6 +107,12 @@ npm start
 
 ---
 
+## 7) 실행 화면
+<img width="1810" height="1276" alt="image" src="https://github.com/user-attachments/assets/0ebf0953-8085-48ba-b9bf-59c3f6ddb562" />
+
+
+---
+
 ## 참고
 
 세부 설정 항목은 `CONFIGURATION.md`를 참고하세요.
