@@ -1,4 +1,4 @@
-# APM Module V2 (업데이트 반영본)
+# APM Module V2 (+ Tail First APM)
 
 기존 APM Module V1 설명은 생략하고, V2에서 **추가/변경된 내용만** 정리한 문서입니다.
 
