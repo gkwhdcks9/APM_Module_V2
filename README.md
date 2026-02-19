@@ -105,6 +105,11 @@ npm start
 - warmup 데이터의 예측 통계 오염 제거
 - 차트 실시간 시간축 이동 보강
 
+### 2026.02.19 - risk score 상대 기준 추가
+- risk score 절대 기준 40 <= X < 70 : warning, 70 <= X : critical
+- + risk score 상대 기준 p95 : warning, p99 : critical
+
+
 ---
 
 ## 7) 실행 화면
